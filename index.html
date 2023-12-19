@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contas a Pagar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        h1 {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        #contas {
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .conta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        button {
+            display: block;
+            width: 200px;
+            height: 40px;
+            margin: 20px auto;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+</head>
+<body>
+    <h1>Contas a Pagar</h1>
+    <div id="contas"></div>
+    <button onclick="gerarPDF()">Gerar PDF</button>
+
+    <script>
+        var contas = [
+            'Dia 01 - Cartão Caixa',
+            'Dia 01 - Cartão Nubank',
+            'Dia 01 - Cartão Neon',
+            'Dia 10 - Seguro',
+            'Dia 10 - Carro',
+            'Dia 10 - Isabela',
+            'Dia 10 - Conta de Água',
+            'Dia 10 - Conta de Luz',
+            'Dia 15 - Apartamento',
+            'Dia 20 - Gabriel',
+            'Dia 20 - Isabela'
+        ]; // Adicione mais contas aqui
+
+        window.onload = function() {
+            var contasDiv = document.getElementById('contas');
+            for (var i = 0; i < contas.length; i++) {
+                var contaDiv = document.createElement('div');
+                contaDiv.className = 'conta';
+                contaDiv.innerHTML = '<label>' + contas[i] + ': </label><input type="number" id="' + contas[i] + '">';
+                contasDiv.appendChild(contaDiv);
+            }
+        }
+
+        function gerarPDF() {
+            var doc = new jsPDF();
+            var resultado = '';
+            for (var i = 0; i < contas.length; i++) {
+                var valor = document.getElementById(contas[i]).value;
+                resultado += contas[i] + ': ' + valor + '\n';
+            }
+            doc.text('Contas a Pagar:\n' + resultado, 10, 10);
+            doc.save('contas_a_pagar.pdf');
+        }
+    </script>
+</body>
+</html>
